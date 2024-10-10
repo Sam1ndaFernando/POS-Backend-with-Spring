@@ -17,14 +17,13 @@ import java.util.List;
 public class OrderEntity implements SuperEntity {
     @Id
     private String orderID;
-    private LocalDate date;
-    private String cusId;
+    private String date;
     private double discountRate;
     private double discount;
     private double subTotal;
     private double balance;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customerId", nullable = false)
+    @JoinColumn(name = "customerId")
     private CustomerEntity customer;
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderDetailsEntity> orderDetailsList;
