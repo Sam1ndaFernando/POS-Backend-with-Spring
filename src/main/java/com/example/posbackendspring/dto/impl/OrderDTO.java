@@ -11,9 +11,12 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class OrderDTO implements SuperDTO {
-    private String customerId;
-    private String name;
-    private String city;
-    private String tel;
-    private List<OrderDTO> orderList;
+    private String orderID;
+    private String date;
+    private double discountRate;
+    private double discount;
+    private double subTotal;
+    private double balance;
+    private CustomerDTO customerId;
+    private List<OrderDetailDTO> orderDetailDTO;
 }
