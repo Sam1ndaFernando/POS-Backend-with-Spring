@@ -20,4 +20,6 @@ public class OrderDetailDTO {
     private String itemName;
     private int orderQTY;
     private double unitPrice;
+    private ItemDTO item;
+    private OrderDTO order;
 }
