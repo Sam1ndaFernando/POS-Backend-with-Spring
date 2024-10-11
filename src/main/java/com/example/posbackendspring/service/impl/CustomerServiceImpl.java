@@ -3,6 +3,7 @@ package com.example.posbackendspring.service.impl;
 import com.example.posbackendspring.dto.CustomerStatus;
 import com.example.posbackendspring.dto.impl.CustomerDTO;
 import com.example.posbackendspring.entity.impl.CustomerEntity;
+import com.example.posbackendspring.exception.CustomerNotFoundException;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.repository.CustomerRepository;
 import com.example.posbackendspring.service.CustomerService;
@@ -42,7 +43,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomer(String customerId) {
-
+        Optional<CustomerEntity> tmpCustomer = customerRepository.findById(customerId);
+        if (!tmpCustomer.isPresent()){
+            throw new CustomerNotFoundException("Customer ID with " + customerId + "Not Found!");
+        }else {
+            customerRepository.deleteById(customerId);
+        }
     }
 
     @Override
