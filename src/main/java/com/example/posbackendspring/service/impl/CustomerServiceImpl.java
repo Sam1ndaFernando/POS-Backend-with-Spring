@@ -1,5 +1,6 @@
 package com.example.posbackendspring.service.impl;
 
+import com.example.posbackendspring.customStatusCode.ErrorStatus;
 import com.example.posbackendspring.dto.CustomerStatus;
 import com.example.posbackendspring.dto.impl.CustomerDTO;
 import com.example.posbackendspring.entity.impl.CustomerEntity;
