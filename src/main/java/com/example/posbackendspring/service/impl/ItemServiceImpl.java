@@ -1,5 +1,6 @@
 package com.example.posbackendspring.service.impl;
 
+import com.example.posbackendspring.customStatusCode.ErrorStatus;
 import com.example.posbackendspring.dto.ItemStatus;
 import com.example.posbackendspring.dto.impl.ItemDTO;
 import com.example.posbackendspring.entity.impl.ItemEntity;
@@ -53,8 +54,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemStatus getItem(String itemId) {
-        return null;
+    public ItemStatus getItem(String itemCode) {
+        if (itemRepository.existsById(itemCode)){
+            return mapping.toItemDTO(itemRepository.getReferenceById(itemCode));
+        }else {
+            return new ErrorStatus(2,"Selected item not found");
+        }
     }
 
     @Override
