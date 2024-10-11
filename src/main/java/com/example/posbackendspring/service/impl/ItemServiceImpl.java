@@ -3,6 +3,7 @@ package com.example.posbackendspring.service.impl;
 import com.example.posbackendspring.dto.ItemStatus;
 import com.example.posbackendspring.dto.impl.ItemDTO;
 import com.example.posbackendspring.entity.impl.ItemEntity;
+import com.example.posbackendspring.exception.CustomerNotFoundException;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.repository.ItemRepository;
 import com.example.posbackendspring.service.ItemService;
@@ -39,12 +40,16 @@ public class ItemServiceImpl implements ItemService {
             tmpItem.get().setQTYOnHand(itemDTO.getQTYOnHand());
             tmpItem.get().setUnitPrice(itemDTO.getUnitPrice());
         }
-
     }
 
     @Override
     public void deleteItem(String itemId) {
-
+        Optional<ItemEntity> tmpItem = itemRepository.findById(itemId);
+        if (!tmpItem.isPresent()){
+            throw new CustomerNotFoundException("Item code with " + itemId + "Not Found!");
+        }else {
+            itemRepository.deleteById(itemId);
+        }
     }
 
     @Override
