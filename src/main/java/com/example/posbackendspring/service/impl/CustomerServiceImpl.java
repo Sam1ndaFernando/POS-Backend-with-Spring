@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
@@ -30,7 +32,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void updateCustomer(String customerId, CustomerDTO customerDTO) {
-
+        Optional<CustomerEntity> tmpCustomer = customerRepository.findById(customerId);
+        if (tmpCustomer.isPresent()){
+            tmpCustomer.get().setName(customerDTO.getName());
+            tmpCustomer.get().setCity(customerDTO.getCity());
+            tmpCustomer.get().setTel(customerDTO.getTel());
+        }
     }
 
     @Override
