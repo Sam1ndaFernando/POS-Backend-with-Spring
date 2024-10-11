@@ -53,7 +53,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerStatus getCustomer(String customerId) {
-        return null;
+        if (customerRepository.existsById(customerId)){
+            return mapping.toCustomerDTO(customerRepository.getReferenceById(customerId));
+        }else {
+            return new ErrorStatus(2,"Selected Customer not found");
+        }
     }
 
     @Override
