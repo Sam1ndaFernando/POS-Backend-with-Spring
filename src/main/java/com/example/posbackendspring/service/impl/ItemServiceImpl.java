@@ -33,7 +33,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void updateItem(String itemId, ItemDTO itemDTO) {
-
+        Optional<ItemEntity> tmpItem = itemRepository.findById(itemId);
+        if (tmpItem.isPresent()){
+            tmpItem.get().setItemName(itemDTO.getItemName());
+            tmpItem.get().setQTYOnHand(itemDTO.getQTYOnHand());
+            tmpItem.get().setUnitPrice(itemDTO.getUnitPrice());
+        }
 
     }
 
