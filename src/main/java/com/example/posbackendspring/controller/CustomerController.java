@@ -1,5 +1,7 @@
 package com.example.posbackendspring.controller;
 
+import com.example.posbackendspring.customStatusCode.ErrorStatus;
+import com.example.posbackendspring.dto.CustomerStatus;
 import com.example.posbackendspring.dto.impl.CustomerDTO;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.service.CustomerService;
@@ -56,5 +58,12 @@ public class CustomerController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping(value = "/{customerId}")
+    public CustomerStatus getSelectedCustomer(@PathVariable("customerId") String customerId){
+        if (!Regex.customerIdValidate(customerId).matches()){
+            return new ErrorStatus(1,"Customer ID is Not valid!");
+        }
+        return customerService.getCustomer(customerId);
     }
 }
