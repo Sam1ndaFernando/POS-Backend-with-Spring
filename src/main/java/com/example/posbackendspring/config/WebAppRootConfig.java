@@ -36,7 +36,7 @@ public class WebAppRootConfig {
         vendorAdapter.setGenerateDdl(true);
         var entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
-        entityManagerFactoryBean.setPackagesToScan("com/example/posbackendspring/entity");
+        entityManagerFactoryBean.setPackagesToScan("com.example.posbackendspring.entity");
         entityManagerFactoryBean.setDataSource(dataSource());
         return entityManagerFactoryBean;
     }
