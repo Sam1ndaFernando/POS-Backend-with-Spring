@@ -1,5 +1,7 @@
 package com.example.posbackendspring.controller;
 
+import com.example.posbackendspring.customStatusCode.ErrorStatus;
+import com.example.posbackendspring.dto.ItemStatus;
 import com.example.posbackendspring.dto.impl.ItemDTO;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.service.ItemService;
@@ -57,5 +59,11 @@ public class ItemController {
         }
     }
 
-
+    @GetMapping(value = "/{itemCode}")
+    public ItemStatus getSelectedItem(@PathVariable("itemCode") String itemCode){
+        if (!Regex.itemCodeValidate(itemCode).matches()){
+            return new ErrorStatus(1,"Item Code is Not valid!!!!!");
+        }
+        return itemService.getItem(itemCode);
+    }
 }
