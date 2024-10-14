@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/items")
 @CrossOrigin
@@ -65,5 +67,9 @@ public class ItemController {
             return new ErrorStatus(1,"Item Code is Not valid!!!!!");
         }
         return itemService.getItem(itemCode);
+    }
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ItemDTO> getAllItem(){
+        return itemService.getAllItem();
     }
 }
