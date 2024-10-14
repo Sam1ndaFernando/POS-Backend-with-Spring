@@ -3,6 +3,7 @@ package com.example.posbackendspring.controller;
 import com.example.posbackendspring.dto.impl.ItemDTO;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.service.ItemService;
+import com.example.posbackendspring.util.Regex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,5 +42,20 @@ public class ItemController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @DeleteMapping(value = "/{itemCode}")
+    public ResponseEntity<Void> deleteItem(@PathVariable("itemCode") String itemCode){
+        try{
+            if (!Regex.itemCodeValidate(itemCode).matches()) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            itemService.deleteItem(itemCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
