@@ -48,6 +48,9 @@ public class WebAppRootConfig {
         return transactionManager;
     }
 
-
+    @Bean
+    public ModelMapper modalMapper(){
+        return new ModelMapper();
+    }
 
 }
