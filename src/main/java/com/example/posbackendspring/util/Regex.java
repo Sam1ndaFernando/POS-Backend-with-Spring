@@ -11,4 +11,8 @@ public class Regex {
     public static Matcher itemCodeValidate(String itemCode){
         return Pattern.compile("^I\\d{2}-\\d{3,}$").matcher(itemCode);
     }
+    public static Matcher orderIdValidate(String orderId) {
+        return Pattern.compile("/^\\d+$/").matcher(orderId);
+    }
+
 }
