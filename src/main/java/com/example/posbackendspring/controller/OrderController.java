@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/orders")
 @CrossOrigin
@@ -67,5 +69,8 @@ public class OrderController {
         }
         return (OrderStatus) orderService.getOrder(orderId);
     }
-
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrderDTO> getAllOrders(){
+        return orderService.getAllOrder();
+    }
 }
