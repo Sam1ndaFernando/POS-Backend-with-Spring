@@ -1,5 +1,6 @@
 package com.example.posbackendspring.service.impl;
 
+import com.example.posbackendspring.customStatusCode.ErrorStatus;
 import com.example.posbackendspring.dao.OrderDao;
 import com.example.posbackendspring.dto.OrderStatus;
 import com.example.posbackendspring.dto.impl.OrderDTO;
@@ -81,7 +82,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderStatus getOrder(String orderId) {
-        return null;
+        if (orderDao.existsById(orderId)){
+            return (OrderStatus) mapping.toOrderDTO(orderDao.getReferenceById(orderId));
+        }else {
+            return (OrderStatus) new ErrorStatus(2,"Selected order not found");
+        }
     }
 
     @Override
