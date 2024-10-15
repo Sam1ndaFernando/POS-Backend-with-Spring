@@ -6,7 +6,7 @@ import com.example.posbackendspring.dto.impl.ItemDTO;
 import com.example.posbackendspring.entity.impl.ItemEntity;
 import com.example.posbackendspring.exception.CustomerNotFoundException;
 import com.example.posbackendspring.exception.DataPersistException;
-import com.example.posbackendspring.repository.ItemRepository;
+import com.example.posbackendspring.dao.ItemRepository;
 import com.example.posbackendspring.service.ItemService;
 import com.example.posbackendspring.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
