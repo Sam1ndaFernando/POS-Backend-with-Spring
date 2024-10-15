@@ -3,6 +3,7 @@ package com.example.posbackendspring.controller;
 import com.example.posbackendspring.dto.impl.OrderDTO;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.service.OrderService;
+import com.example.posbackendspring.util.Regex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,5 +42,21 @@ public class OrderController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping(value = "/{orderId}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable("orderId") String orderId){
+        try{
+            if (!Regex.orderIdValidate(orderId).matches()) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            orderService.deleteOrder(orderId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (DataPersistException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }
