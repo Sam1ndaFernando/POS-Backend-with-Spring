@@ -1,5 +1,7 @@
 package com.example.posbackendspring.controller;
 
+import com.example.posbackendspring.customStatusCode.ErrorStatus;
+import com.example.posbackendspring.dto.OrderStatus;
 import com.example.posbackendspring.dto.impl.OrderDTO;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.service.OrderService;
@@ -58,5 +60,12 @@ public class OrderController {
         }
     }
 
+    @GetMapping(value = "/{orderId}")
+    public OrderStatus getOrder(@PathVariable("orderId") String orderId){
+        if (!Regex.orderIdValidate(orderId).matches()){
+            return (OrderStatus) new ErrorStatus(1,"OrderId is Not valid!");
+        }
+        return (OrderStatus) orderService.getOrder(orderId);
+    }
 
 }
