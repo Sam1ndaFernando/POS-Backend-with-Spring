@@ -16,7 +16,6 @@ public class OrderDetailDTO {
     private String customerName;
     private String customerCity;
     private String customerTel;
-    private String itemCode;
     private String itemName;
     private int orderQTY;
     private double unitPrice;
