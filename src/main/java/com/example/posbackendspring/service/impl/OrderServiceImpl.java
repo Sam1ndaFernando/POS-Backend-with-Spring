@@ -5,6 +5,7 @@ import com.example.posbackendspring.dto.OrderStatus;
 import com.example.posbackendspring.dto.impl.OrderDTO;
 import com.example.posbackendspring.dto.impl.OrderDetailDTO;
 import com.example.posbackendspring.entity.impl.OrderEntity;
+import com.example.posbackendspring.exception.CustomerNotFoundException;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.service.OrderDetailService;
 import com.example.posbackendspring.service.OrderService;
@@ -70,7 +71,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(String orderId) {
-
+        Optional<OrderEntity> tmpOrder = orderDao.findById(orderId);
+        if (!tmpOrder.isPresent()){
+            throw new CustomerNotFoundException("OrderId with " + orderId + "Not Found!");
+        }else {
+            orderDao.deleteById(orderId);
+        }
     }
 
     @Override
