@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.posbackendspring.service.impl.CustomerServiceImpl.logger;
+
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
@@ -28,14 +30,15 @@ public class OrderServiceImpl implements OrderService {
     private Mapping mapping;
     @Autowired
     private OrderDetailService orderDetailService;
-
-
     @Override
     public void saveOrder(OrderDTO orderDTO) {
+        logger.info("Saved order", orderDTO.getOrderID());
         OrderEntity order = orderDao.save(mapping.toOrderEntity(orderDTO));
         if (order==null){
-            throw new DataPersistException("Order Saved");
+            logger.error("Order could not be saved", orderDTO.getOrderID());
+            throw new DataPersistException("Order Note Saved");
         }else {
+            logger.info("Order has been saved successfully", orderDTO.getOrderID());
             for (OrderDetailDTO orderDetailDTO:orderDTO.getOrderDetailDTO()){
                 orderDetailDTO.setId(AppUtil.generateOrderDetailId());
                 orderDetailDTO.setOrder(orderDTO);
@@ -52,6 +55,7 @@ public class OrderServiceImpl implements OrderService {
                         orderDetailDTO.getItem(),
                         orderDetailDTO.getOrder()
                 ));
+                logger.info("Order detail has been saved successfully", orderDTO.getOrderID());
             }
         }
     }
