@@ -44,10 +44,13 @@ public class ItemController {
     public ResponseEntity<Void> updateItem(@PathVariable("itemCode") String itemCode,@RequestBody ItemDTO itemDTO){
         try{
             itemService.updateItem(itemCode,itemDTO);
+            logger.info("Item updated successfully.", itemCode);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
+            logger.warn("Failed to update item : ", itemCode);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
+            logger.error("Internal server error while updating item : ", itemCode, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
