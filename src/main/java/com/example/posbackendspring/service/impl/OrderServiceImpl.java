@@ -104,7 +104,13 @@ public class OrderServiceImpl implements OrderService {
     }
     @Override
     public List<OrderDTO> getAllOrder() {
-        return mapping.toOrderList(orderDao.findAll());
-
+        logger.info("Fetching all orders");
+        List<OrderDTO> orders = mapping.toOrderList(orderDao.findAll());
+        if (orders.isEmpty()) {
+            logger.warn("No orders found ");
+        } else {
+            logger.info("Number of orders found ", orders.size());
+        }
+        return orders;
     }
 }
