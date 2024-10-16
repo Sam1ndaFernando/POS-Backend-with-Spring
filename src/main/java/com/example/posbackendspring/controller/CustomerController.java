@@ -46,10 +46,13 @@ public class CustomerController {
     public ResponseEntity<Void> updateCustomer(@PathVariable("customerId") String customerId,@RequestBody CustomerDTO customerDTO){
         try{
             customerService.updateCustomer(customerId,customerDTO);
+            logger.info("Customer updated successfully", customerId);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
+            logger.error("Failed to update customer", e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
+            logger.error("Unable to update customer record due to internal server issue", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
