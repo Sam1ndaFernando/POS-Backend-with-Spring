@@ -9,6 +9,7 @@ import com.example.posbackendspring.entity.impl.ItemEntity;
 import com.example.posbackendspring.exception.CustomerNotFoundException;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.dao.ItemDao;
+import com.example.posbackendspring.exception.ItemNotFoundException;
 import com.example.posbackendspring.service.ItemService;
 import com.example.posbackendspring.util.Mapping;
 import org.slf4j.Logger;
@@ -56,12 +57,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteItem(String itemId) {
-        Optional<ItemEntity> tmpItem = itemDao.findById(itemId);
+    public void deleteItem(String itemCode) {
+        Optional<ItemEntity> tmpItem = itemDao.findById(itemCode);
         if (!tmpItem.isPresent()){
-            throw new CustomerNotFoundException("Item code with " + itemId + "Not Found!");
+            logger.info("Delete item with code: ", itemCode);
+            throw new ItemNotFoundException("Item code with " + itemCode + "Not Found!");
         }else {
-            itemDao.deleteById(itemId);
+            itemDao.deleteById(itemCode);
+            logger.info("Item has been deleted successfully", itemCode);
         }
     }
 
