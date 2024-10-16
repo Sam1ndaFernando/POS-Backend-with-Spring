@@ -84,7 +84,18 @@ public class OrderController {
         return orderService.getOrder(orderId);
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<OrderDTO> getAllOrders(){
-        return orderService.getAllOrder();
+    public ResponseEntity<List<OrderDTO>> getAllOrders(){
+        List<OrderDTO> orderList = orderService.getAllOrder();
+        try{
+            if (orderList.isEmpty()) {
+                logger.warn("No order found.");
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                logger.info("Successfully retrieved all orders", orderList.size());
+                return new ResponseEntity<>(orderList, HttpStatus.OK);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
