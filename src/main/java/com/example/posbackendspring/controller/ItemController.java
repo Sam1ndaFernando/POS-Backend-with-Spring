@@ -82,7 +82,19 @@ public class ItemController {
         return itemService.getItem(itemCode);
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ItemDTO> getAllItem(){
-        return itemService.getAllItem();
+    public ResponseEntity<List<ItemDTO>> getAllItem(){
+        try{
+            List<ItemDTO> itemsList = itemService.getAllItem();
+            if (itemsList.isEmpty()) {
+                logger.warn("No item found.");
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                logger.info("Successfully retrieved all items", itemsList.size());
+                return new ResponseEntity<>(itemsList, HttpStatus.OK);
+            }
+        }catch (Exception e) {
+            logger.error("Error retrieving item list", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
