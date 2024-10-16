@@ -82,6 +82,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDTO> getAllItem() {
-        return mapping.toItemList(itemDao.findAll());
+        logger.info("Fetching all items");
+        List<ItemDTO> items = mapping.toItemList(itemDao.findAll());
+
+        if (items.isEmpty()) {
+            logger.warn("No items found");
+        } else {
+            logger.info("Number of items found: ", items.size());
+        }
+        return items;
     }
 }
