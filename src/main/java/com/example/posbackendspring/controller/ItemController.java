@@ -6,6 +6,8 @@ import com.example.posbackendspring.dto.impl.ItemDTO;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.service.ItemService;
 import com.example.posbackendspring.util.Regex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,19 +20,22 @@ import java.util.List;
 @RequestMapping("api/v1/items")
 @CrossOrigin
 public class ItemController {
-
     @Autowired
     private ItemService itemService;
+    static Logger logger = LoggerFactory.getLogger(ItemController.class);
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveItem(@RequestBody ItemDTO itemDTO){
         itemDTO.setItemCode(itemDTO.getItemCode());
         try{
             itemService.saveItem(itemDTO);
+            logger.info("Item created successfully ", itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
+            logger.warn("Failed to create item: ", itemDTO.getItemCode());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
+            logger.error("Internal server error while creating item: ", itemDTO.getItemCode(), e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
