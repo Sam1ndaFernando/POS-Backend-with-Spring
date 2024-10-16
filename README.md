@@ -24,3 +24,12 @@ The Point of Sale (POS) Backend is a robust RESTful API designed to efficiently 
 - Java 11 or higher
 - Maven 3.6+
 - MySQL 8.0+
+
+## License
+**This project is licensed under the MIT License** - see the LICENSE file for details.
+
+## Contributing
+
+> Contributions are welcome!
+
+ Please see the CONTRIBUTING file for guidelines.
