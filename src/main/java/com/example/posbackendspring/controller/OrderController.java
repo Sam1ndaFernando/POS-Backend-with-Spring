@@ -60,13 +60,17 @@ public class OrderController {
     public ResponseEntity<Void> deleteOrder(@PathVariable("orderId") String orderId){
         try{
             if (!Regex.orderIdValidate(orderId).matches()) {
+                logger.error("Bad Request!");
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             orderService.deleteOrder(orderId);
+            logger.error("No Content!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e){
+            logger.error("Not Found!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            logger.error("Internal Server Error!");
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
