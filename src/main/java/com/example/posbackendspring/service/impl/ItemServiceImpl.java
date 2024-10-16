@@ -70,9 +70,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemStatus getItem(String itemCode) {
+        logger.info("Fetching item with code:", itemCode);
         if (itemDao.existsById(itemCode)){
+            logger.info("Item found", itemCode);
             return mapping.toItemDTO(itemDao.getReferenceById(itemCode));
         }else {
+            logger.warn("Item not found", itemCode);
             return new ErrorStatus(2,"Selected item not found");
         }
     }
