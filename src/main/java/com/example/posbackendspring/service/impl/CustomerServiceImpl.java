@@ -69,9 +69,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerStatus getCustomer(String customerId) {
+        logger.info("Get customer : ", customerId);
         if (customerDao.existsById(customerId)){
+            logger.info("Customer with Id found ", customerId);
             return mapping.toCustomerDTO(customerDao.getReferenceById(customerId));
         }else {
+            logger.warn("Customer Id not found ", customerId);
             return new ErrorStatus(2,"Selected Customer not found");
         }
     }
