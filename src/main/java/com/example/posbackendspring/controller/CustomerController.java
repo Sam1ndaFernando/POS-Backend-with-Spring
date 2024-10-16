@@ -77,10 +77,18 @@ public class CustomerController {
     }
     @GetMapping(value = "/{customerId}")
     public CustomerStatus getSelectedCustomer(@PathVariable("customerId") String customerId){
+        logger.error("Invalid Customer Id", customerId);
         if (!Regex.customerIdValidate(customerId).matches()){
+            logger.error("Customer ID is Not valid!");
             return new ErrorStatus(1,"Customer ID is Not valid!");
         }
-        return customerService.getCustomer(customerId);
+        CustomerStatus customerStatus = customerService.getCustomer(customerId);
+        if (customerStatus instanceof ErrorStatus) {
+            logger.warn("Customer Id not found", customerId);
+        } else {
+            logger.info("Customer Id retrieved successfully", customerId);
+        }
+        return customerStatus;
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
