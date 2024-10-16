@@ -62,6 +62,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrder(String orderId, OrderDTO orderDTO) {
+        logger.info("Updated order", orderId);
         Optional<OrderEntity> tmpOrder = orderDao.findById(orderId);
         if (tmpOrder.isPresent()){
             tmpOrder.get().setDate(orderDTO.getDate());
@@ -71,6 +72,9 @@ public class OrderServiceImpl implements OrderService {
             tmpOrder.get().setBalance(orderDTO.getBalance());
             tmpOrder.get().setCustomer(mapping.toCustomerEntity(orderDTO.getCustomerId()));
             tmpOrder.get().setOrderDetailsList(mapping.toOrderEntityList(orderDTO.getOrderDetailDTO()));
+            logger.info("Order has been updated successfully", orderId);
+        }else {
+            logger.warn("Order not found for update", orderId);
         }
     }
 
