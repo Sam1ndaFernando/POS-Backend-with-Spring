@@ -92,8 +92,20 @@ public class CustomerController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CustomerDTO> getAllCustomers(){
-        return customerService.getAllCustomer();
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers(){
+        try {
+            List<CustomerDTO> customers = customerService.getAllCustomer();
+            if (customers.isEmpty()) {
+                logger.warn("No customers found.");
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                logger.info("Successfully retrieved all customers", customers.size());
+                return new ResponseEntity<>(customers, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            logger.error("Error retrieving customer list", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
