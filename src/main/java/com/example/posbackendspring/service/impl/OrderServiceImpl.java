@@ -80,11 +80,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(String orderId) {
+        logger.info("Deleted order", orderId);
         Optional<OrderEntity> tmpOrder = orderDao.findById(orderId);
         if (!tmpOrder.isPresent()){
+            logger.error("Order not found for deletion", orderId);
             throw new CustomerNotFoundException("OrderId with " + orderId + "Not Found!");
         }else {
             orderDao.deleteById(orderId);
+            logger.info("Order has been deleted successfully", orderId);
         }
     }
 
