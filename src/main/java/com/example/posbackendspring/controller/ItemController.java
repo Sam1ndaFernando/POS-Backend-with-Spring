@@ -58,13 +58,17 @@ public class ItemController {
     public ResponseEntity<Void> deleteItem(@PathVariable("itemCode") String itemCode){
         try{
             if (!Regex.itemCodeValidate(itemCode).matches()) {
+                logger.warn("Invalid item code: ", itemCode);
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             itemService.deleteItem(itemCode);
+            logger.info("Item deleted successfully.", itemCode);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e){
+            logger.warn("Item not found.", itemCode);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            logger.error("Internal server error while deleting item : ", itemCode, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
