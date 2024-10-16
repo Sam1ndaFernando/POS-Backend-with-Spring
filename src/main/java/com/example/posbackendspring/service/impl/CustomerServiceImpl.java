@@ -42,11 +42,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void updateCustomer(String customerId, CustomerDTO customerDTO) {
+        logger.info("update customer", customerId);
         Optional<CustomerEntity> tmpCustomer = customerDao.findById(customerId);
         if (tmpCustomer.isPresent()){
             tmpCustomer.get().setName(customerDTO.getName());
             tmpCustomer.get().setCity(customerDTO.getCity());
             tmpCustomer.get().setTel(customerDTO.getTel());
+            logger.info("Customer Id has been updated successfully", customerId);
+        }else {
+            logger.warn("Customer Id not found for update", customerId);
         }
     }
 
