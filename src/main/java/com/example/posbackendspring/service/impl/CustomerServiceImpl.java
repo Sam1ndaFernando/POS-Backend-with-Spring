@@ -10,6 +10,8 @@ import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.dao.CustomerDao;
 import com.example.posbackendspring.service.CustomerService;
 import com.example.posbackendspring.util.Mapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +24,19 @@ import java.util.Optional;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDao customerDao;
-
     @Autowired
     private Mapping mapping;
+    static Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
+
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
+        logger.info("save customer", customerDTO.getCustomerId());
         CustomerEntity customer = customerDao.save(mapping.toCustomerEntity(customerDTO));
         if (customer==null){
+            logger.error("Customer Id is null", customerDTO.getCustomerId());
             throw new DataPersistException("Customer Note Saved");
+        }else {
+            logger.info("Customer with Id has been saved successfully", customerDTO.getCustomerId());
         }
     }
 
