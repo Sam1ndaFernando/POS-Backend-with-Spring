@@ -78,9 +78,10 @@ public class OrderController {
     @GetMapping(value = "/{orderId}")
     public OrderStatus getOrder(@PathVariable("orderId") String orderId){
         if (!Regex.orderIdValidate(orderId).matches()){
+            logger.error("OrderId is Not valid!");
             return (OrderStatus) new ErrorStatus(1,"OrderId is Not valid!");
         }
-        return (OrderStatus) orderService.getOrder(orderId);
+        return orderService.getOrder(orderId);
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderDTO> getAllOrders(){
