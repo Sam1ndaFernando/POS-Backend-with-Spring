@@ -6,6 +6,8 @@ import com.example.posbackendspring.dto.impl.CustomerDTO;
 import com.example.posbackendspring.exception.DataPersistException;
 import com.example.posbackendspring.service.CustomerService;
 import com.example.posbackendspring.util.Regex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,17 +22,22 @@ import java.util.List;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
+    static Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> saveCustomer(@RequestBody CustomerDTO customerDTO){
         customerDTO.setCustomerId(customerDTO.getCustomerId());
         try{
             customerService.saveCustomer(customerDTO);
+            logger.info("Customer saved successfully", customerDTO.getCustomerId());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DataPersistException e){
+            logger.error("Failed to save customer", e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             e.printStackTrace();
+            logger.error("Unable to save customer record due to internal server issue", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
