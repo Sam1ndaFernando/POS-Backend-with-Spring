@@ -81,6 +81,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> getAllCustomer() {
-        return mapping.customerList(customerDao.findAll());
+        logger.info("Request to get all customers");
+        List<CustomerDTO> customers = mapping.customerList(customerDao.findAll());
+        if (customers.isEmpty()) {
+            logger.warn("No customers found");
+        } else {
+            logger.info("Number of customers found: ", customers.size());
+        }
+        return customers;
     }
 }
