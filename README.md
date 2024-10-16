@@ -21,7 +21,7 @@ The Point of Sale (POS) Backend is a robust RESTful API designed to efficiently 
 
 ## Prerequisites
 
-- Java 11 or higher
+- Java 17 or higher
 - Maven 3.6+
 - MySQL 8.0+
 
