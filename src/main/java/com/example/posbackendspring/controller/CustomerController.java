@@ -61,13 +61,17 @@ public class CustomerController {
     public ResponseEntity<Void> deleteCustomer(@PathVariable("customerId") String customerId){
         try{
             if (!Regex.customerIdValidate(customerId).matches()) {
+                logger.error("Wrong customer ID", customerId);
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             customerService.deleteCustomer(customerId);
+            logger.info("Customer Id deleted successfully", customerId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (DataPersistException e){
+            logger.error("Customer ID not found", customerId, e);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }catch (Exception e){
+            logger.error("Unable to delete customer record due to internal server issue", customerId, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
