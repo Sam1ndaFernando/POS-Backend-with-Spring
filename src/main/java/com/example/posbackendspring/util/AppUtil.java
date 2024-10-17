@@ -5,15 +5,15 @@ import java.util.UUID;
 public class AppUtil {
 
     public static String generateCustomerId(){
-        return "customer-" + UUID.randomUUID();
+        return "customer" + UUID.randomUUID();
     }
     public static String generateItemId(){
-        return "Item-" + UUID.randomUUID();
+        return "Item" + UUID.randomUUID();
     }
     public static String generateOrderId(){
-        return "Order-" + UUID.randomUUID();
+        return "Order" + UUID.randomUUID();
     }
     public static String generateOrderDetailId(){
-        return "Order_Details-" + UUID.randomUUID();
+        return "OrderDetails-" + UUID.randomUUID();
     }
 }
