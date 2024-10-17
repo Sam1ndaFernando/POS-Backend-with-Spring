@@ -10,6 +10,6 @@ public class HealthChecker {
 
     @GetMapping
     public String healthChecker(){
-        return "server is working!";
+        return "POS වැඩ කරයි!";
     }
 }
